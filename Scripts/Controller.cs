@@ -8,7 +8,7 @@ public class Controller : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     public float playerSpeed = 2.0f;
-    public float jumpHeight = 1.0f;
+    public float jumpHeight = 0.2f;
     public float gravityValue = -9.81f;
     private Collider m_ObjectCollider;
     private Debug debug;
@@ -30,6 +30,7 @@ public class Controller : MonoBehaviour
     private void Start()
     {
         controller = gameObject.AddComponent<CharacterController>();
+        controller.enabled = true;
     }
 
     void Update()
@@ -52,6 +53,10 @@ public class Controller : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+
+        }
+        if(playerVelocity.y == 0 && isGrounded == false){
+            gravityValue *= 2;
         }
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
